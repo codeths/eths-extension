@@ -8,4 +8,4 @@ jobs:
 
     steps:
     - name: Install Chrome
-      run: apt install chromium-browser
+      run: sudo apt-get install chromium-browser
