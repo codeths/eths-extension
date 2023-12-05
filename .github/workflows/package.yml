@@ -1,0 +1,11 @@
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Pack Extension
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Install Chrome
+      run: apt install chromium-browser
