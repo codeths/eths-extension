@@ -4,19 +4,17 @@ on:
 jobs:
   build:
     name: Pack Extension
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v3
-    - uses: browser-actions/setup-chrome@v1
 
-    - name: Fetch secret key
-      env:
-        CRX_PRIVATE_KEY: ${{ secrets.CRX_PRIVATE_KEY }}
-      run: echo $CRX_PRIVATE_KEY > key.pem
+    - name: Pack extension
+      run: zip -r src.zip ./
 
-    - name: Pack & Sign Extension
-      run: |
-        echo `ls`
-        echo `pwd`
-        chromium --pack-extension=./ --pack-extension-key=key.pem
+    - name: Sign Chrome Extension CRX file
+      uses: cardinalby/webext-buildtools-chrome-crx-action@2.0.3
+      with:
+        zipFilePath: src.zip
+        crxFilePath: src.crx
+        privateKey: ${{ secrets.CRX_PRIVATE_KEY }}
