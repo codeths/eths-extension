@@ -14,3 +14,6 @@ jobs:
       env:
         CRX_PRIVATE_KEY: ${{ secrets.CRX_PRIVATE_KEY }}
       run: echo $CRX_PRIVATE_KEY > key.pem
+
+    - name: Pack & Sign Extension
+      run: chromium --pack-extension=`pwd` --pack-extension-key=key.pem
