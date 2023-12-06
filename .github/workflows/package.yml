@@ -20,7 +20,9 @@ jobs:
         cp LICENSE manifest.json background.js dist
 
     - name: Pack extension
-      run: zip -r src.zip dist/
+      run: |
+        cd dist
+        zip -r src.zip *
 
     - name: Sign Chrome Extension CRX file
       uses: cardinalby/webext-buildtools-chrome-crx-action@2.0.3
