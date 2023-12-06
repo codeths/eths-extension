@@ -22,7 +22,7 @@ jobs:
     - name: Pack extension
       run: |
         cd dist
-        zip -r src.zip *
+        zip -r ../src.zip *
 
     - name: Sign Chrome Extension CRX file
       uses: cardinalby/webext-buildtools-chrome-crx-action@2.0.3
