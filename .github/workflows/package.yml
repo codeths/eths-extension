@@ -9,7 +9,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Install Chrome
-      run: sudo apt-get install chromium-browser
+      run: sudo snap install chromium
 
     - name: Fetch secret key
       env:
@@ -20,4 +20,4 @@ jobs:
       run: |
         echo `ls`
         echo `pwd`
-        chromium --pack-extension=`pwd` --pack-extension-key=key.pem
+        chromium --pack-extension=./ --pack-extension-key=key.pem
