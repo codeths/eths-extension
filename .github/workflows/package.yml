@@ -14,8 +14,13 @@ jobs:
         cat manifest.json | jq --arg pk ${{ vars.CRX_PUBLIC_KEY }} '. + {key: $pk}' > manifest.json.tmp
         mv manifest.json.tmp manifest.json
 
+    - name: Build
+      run: |
+        mkdir dist
+        cp LICENSE manifest.json background.js dist
+
     - name: Pack extension
-      run: zip -r src.zip ./
+      run: zip -r src.zip dist/
 
     - name: Sign Chrome Extension CRX file
       uses: cardinalby/webext-buildtools-chrome-crx-action@2.0.3
