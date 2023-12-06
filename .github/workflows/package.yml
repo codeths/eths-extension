@@ -11,7 +11,8 @@ jobs:
 
     - name: Add Public Key
       run: |
-        jq --arg pk $CRX_PUBLIC_KEY '. + {key: pk}' > manifest.json.tmp && mv manifest.json.tmp manifest.json
+        jq --arg pk $CRX_PUBLIC_KEY '. + {key: pk}' manifest.json > manifest.json.tmp
+        mv manifest.json.tmp manifest.json
 
     - name: Pack extension
       run: zip -r src.zip ./
