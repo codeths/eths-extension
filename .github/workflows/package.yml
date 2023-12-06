@@ -9,3 +9,8 @@ jobs:
     steps:
     - name: Install Chrome
       run: sudo apt-get install chromium-browser
+
+    - name: Fetch secret key
+      env:
+        CRX_PRIVATE_KEY: ${{ secrets.CRX_PRIVATE_KEY }}
+      run: echo $CRX_PRIVATE_KEY > key.pem
