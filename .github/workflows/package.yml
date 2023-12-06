@@ -18,3 +18,9 @@ jobs:
         zipFilePath: src.zip
         crxFilePath: src.crx
         privateKey: ${{ secrets.CRX_PRIVATE_KEY }}
+        
+    - name: Upload Build Artifact
+      uses: actions/upload-artifact@v3.1.3
+      with:
+        name: package.crx
+        path: src.crx
