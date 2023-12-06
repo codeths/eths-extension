@@ -9,6 +9,13 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
+    - run: sudo apt-get install jq
+
+    - name: Add Public Key
+      run: |
+        jq --arg pk $CRX_PUBLIC_KEY'. + {key: pk}' > manifest.json.tmp
+        mv manifest.json.tmp manifest.json
+
     - name: Pack extension
       run: zip -r src.zip ./
 
