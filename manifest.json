@@ -1,10 +1,18 @@
 {
-    "name": "ETHS Student Tools",
-    "version": "0.0.3",
-    "manifest_version": 3,
-    "description": "",
-    "background": {
-      "service_worker": "background.js"
-    },
-    "permissions": ["storage", "tabs", "alarms", "enterprise.deviceAttributes", "identity", "identity.email", "gcm"]
+	"name": "ETHS Student Tools",
+	"version": "0.0.3",
+	"manifest_version": 3,
+	"description": "",
+	"background": {
+		"service_worker": "background.js"
+	},
+	"permissions": [
+		"storage",
+		"tabs",
+		"alarms",
+		"enterprise.deviceAttributes",
+		"identity",
+		"identity.email",
+		"gcm"
+	]
 }
