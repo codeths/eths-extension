@@ -1,4 +1,4 @@
-const url = 'http://localhost:3000';
+const url = 'https://dashboard.codeths.dev';
 const sender_id = '543663475808'; // beta ID
 const serial = 'test';
 
