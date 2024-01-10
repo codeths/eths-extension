@@ -36,3 +36,11 @@ jobs:
       with:
         name: package.crx
         path: src.crx
+
+    - name: Create GitHub Release
+      uses: softprops/action-gh-release@v0.1.15
+      with:
+        files: |
+          src.crx
+          LICENSE
+        generate_release_notes: true
