@@ -19,6 +19,8 @@ jobs:
     - name: Build
       run: |
         mkdir dist
+        mkdir upload
+        echo "AAAA" > upload/test.txt
         cp LICENSE manifest.json background.js dist
 
     - name: Pack extension
@@ -30,20 +32,20 @@ jobs:
       uses: cardinalby/webext-buildtools-chrome-crx-action@2.0.3
       with:
         zipFilePath: src.zip
-        crxFilePath: src.crx
+        crxFilePath: upload/src.crx
         privateKey: ${{ secrets.CRX_PRIVATE_KEY }}
         
     - name: Upload Build Artifact
       uses: actions/upload-artifact@v3.1.3
       with:
         name: package.crx
-        path: src.crx
+        path: upload/src.crx
 
     - name: Create GitHub Release
       uses: softprops/action-gh-release@v0.1.15
       with:
         files: |
-          src.crx
+          upload/src.crx
           LICENSE
         generate_release_notes: true
 
@@ -54,5 +56,5 @@ jobs:
         access_key: ${{ secrets.S3_TOKEN }}
         secret_key: ${{ secrets.S3_SECRET }}
         bucket: 'ext'
-        source_dir: 'src.crx'
-        target_dir: '/dashboard/test.crx'
+        source_dir: 'upload'
+        target_dir: '/dashboard'
