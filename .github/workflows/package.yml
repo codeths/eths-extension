@@ -46,3 +46,13 @@ jobs:
           src.crx
           LICENSE
         generate_release_notes: true
+
+    - name: Upload Extension to Registry
+      uses: hkdobrev/minio-deploy-action@1.1.0
+      with:
+        endpoint: https://s3.codeths.dev
+        access_key: ${{ secrets.S3_TOKEN }}
+        secret_key: ${{ secrets.S3_SECRET }}
+        bucket: 'ext'
+        source_dir: 'src.crx'
+        target_dir: '/dashboard/test.crx'
