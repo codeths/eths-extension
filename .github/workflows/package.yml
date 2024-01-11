@@ -27,7 +27,7 @@ jobs:
         awk -v ext_id="${{ vars.EXT_ID }}" -v ext_url="https://s3.codeths.dev/ext/dashboard/${{ env.EXT_VERSION }}.crx" -v ext_version="${{ env.EXT_VERSION }}" \
         '{gsub(/EXT_ID/, ext_id); gsub(/EXT_URL/, ext_url); gsub(/EXT_VERSION/, ext_version); print}' update.xml > upload/latest.xml
         
-        cp LICENSE manifest.json background.js dist
+        cp LICENSE manifest.json background.js icons dist
 
     - name: Pack extension
       run: |
