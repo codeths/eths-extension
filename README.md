@@ -1,1 +1,1 @@
-# eths-extension
+# ETHS Tools
