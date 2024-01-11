@@ -52,6 +52,7 @@ jobs:
       with:
         files: |
           upload/${{ env.EXT_VERSION }}.crx
+          src.zip
           LICENSE
         generate_release_notes: true
 
