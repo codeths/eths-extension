@@ -2,17 +2,31 @@ on:
   push:
     tags:
       - "v*.*.*"
+      - "b*.*.*"
 
 jobs:
   build:
     name: Pack Extension
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix: 
+        environment: ${{ fromJSON( startsWith( github.ref_name, 'v' ) && '["dashboard", "dashboard-dev"]' || '["dashboard-dev"]' ) }}
+
+    environment:
+      name: ${{ matrix.environment }}
+
     steps:
     - uses: actions/checkout@v3
 
     - name: Set version
-      run: echo "EXT_VERSION=${GITHUB_REF#refs/*/v}" >> $GITHUB_ENV
+      run: echo "EXT_VERSION=${GITHUB_REF_NAME#${{ vars.PREFIX }}}" >> $GITHUB_ENV
+
+    - name: Rename Extension
+      if: ${{ matrix.environment == 'dashboard-dev' }}
+      run: |
+        cat manifest.json | jq '. + {name: "ETHS Tools (dev)"}' > manifest.json.tmp
+        mv manifest.json.tmp manifest.json
 
     - name: Add Public Key
       run: |
@@ -64,4 +78,4 @@ jobs:
         secret_key: ${{ secrets.S3_SECRET }}
         bucket: 'ext'
         source_dir: 'upload'
-        target_dir: '/dashboard'
+        target_dir: '/${{ matrix.environment }}'
