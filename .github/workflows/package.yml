@@ -70,6 +70,7 @@ jobs:
             src.zip
             LICENSE
           generate_release_notes: true
+          prerelease: ${{ startsWith( github.ref_name, 'b' ) }}
 
       - name: Upload Extension to Registry
         uses: hkdobrev/minio-deploy-action@1.1.0
