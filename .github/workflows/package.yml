@@ -62,7 +62,7 @@ jobs:
           path: upload/${{ env.EXT_VERSION }}.crx
 
       - name: Create GitHub Release
-        if: ${{ matrix.environment == 'dashboard' }}
+        if: ${{ ! ( startsWith( github.ref_name, 'v' ) && matrix.environment == 'dashboard-dev' ) }}
         uses: softprops/action-gh-release@v0.1.15
         with:
           files: |
