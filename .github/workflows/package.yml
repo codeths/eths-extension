@@ -22,10 +22,10 @@ jobs:
       - name: Set version
         run: echo "EXT_VERSION=${GITHUB_REF_NAME:1}" >> $GITHUB_ENV
 
-      - name: Rename Extension
+      - name: Modify manifest.json
         if: ${{ matrix.environment == 'dashboard-dev' }}
         run: |
-          cat manifest.json | jq '. + {name: "ETHS Tools (dev)"}' > manifest.json.tmp
+          cat manifest.json | jq '. + {name: "ETHS Tools (dev)", update_url: "https://s3.codeths.dev/ext/${{ matrix.environment }}/latest.xml"}' > manifest.json.tmp
           mv manifest.json.tmp manifest.json
 
       - name: Add Public Key
