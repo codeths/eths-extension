@@ -20,9 +20,7 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Set version
-        run: |
-          echo "EXT_VERSION=${GITHUB_REF_NAME#${{ vars.PREFIX }}}" >> $GITHUB_ENV
-          echo "EXT_VERSION=${GITHUB_REF_NAME#${{ vars.PREFIX }}}" >> $GITHUB_ENV
+        run: echo "EXT_VERSION=${GITHUB_REF_NAME:1}" >> $GITHUB_ENV
 
       - name: Rename Extension
         if: ${{ matrix.environment == 'dashboard-dev' }}
@@ -64,6 +62,7 @@ jobs:
           path: upload/${{ env.EXT_VERSION }}.crx
 
       - name: Create GitHub Release
+        if: ${{ matrix.environment == 'dashboard' }}
         uses: softprops/action-gh-release@v0.1.15
         with:
           files: |
