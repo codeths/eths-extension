@@ -1,0 +1,18 @@
+{
+	"dependencies": {
+		"@parcel/config-webextension": "^2.11.0",
+		"parcel": "^2.11.0"
+	},
+	"scripts": {
+		"build": "parcel build manifest.json",
+		"dev": "parcel watch manifest.json"
+	},
+	"targets": {
+		"default": {
+			"sourceMap": false,
+			"engines": {
+				"browsers": "Chrome 91"
+			}
+		}
+	}
+}
