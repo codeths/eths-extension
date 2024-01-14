@@ -14,5 +14,10 @@
 				"browsers": "Chrome 91"
 			}
 		}
+	},
+	"@parcel/transformer-js": {
+		"inlineEnvironment": [
+			"ETHS_*"
+		]
 	}
 }

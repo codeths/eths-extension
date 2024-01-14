@@ -1,5 +1,5 @@
-const url = 'https://dashboard.codeths.dev';
-const sender_id = '543663475808'; // beta ID
+const url = process.env.ETHS_API_BASE;
+const sender_id = process.env.ETHS_FIREBASE_TOKEN;
 const serial = 'test';
 
 chrome.runtime.onInstalled.addListener(async ({ reason }) => {
