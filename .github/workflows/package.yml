@@ -36,6 +36,7 @@ jobs:
       - name: Build Extension
         run: |
           npm ci
+          env
           npm run build
           cp LICENSE dist
 
