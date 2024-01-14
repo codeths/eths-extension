@@ -19,8 +19,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Set version
-        run: echo "EXT_VERSION=${GITHUB_REF_NAME:1}" >> $GITHUB_ENV
+      - name: Set ENV Vars
+        run: |
+          echo "EXT_VERSION=${GITHUB_REF_NAME:1}" >> $GITHUB_ENV
+          echo "ETHS_API_BASE=${{ vars.ETHS_API_BASE }}" >> $GITHUB_ENV
+          echo "ETHS_FIREBASE_TOKEN=${{ vars.ETHS_FIREBASE_TOKEN }}" >> $GITHUB_ENV
 
       - name: Rename Extension
         if: ${{ matrix.environment == 'dashboard-dev' }}
