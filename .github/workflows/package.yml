@@ -33,15 +33,17 @@ jobs:
           cat manifest.json | jq --arg pk ${{ vars.CRX_PUBLIC_KEY }} '. + {key: $pk, update_url: "https://s3.codeths.dev/ext/${{ matrix.environment }}/latest.xml"}' > manifest.json.tmp
           mv manifest.json.tmp manifest.json
 
-      - name: Build
+      - name: Build Extension
         run: |
-          mkdir dist
-          mkdir upload
+          npm ci
+          npm run build
+          cp LICENSE dist
 
+      - name: Generate latest.xml
+        run: |
+          mkdir upload
           awk -v ext_id="${{ vars.EXT_ID }}" -v ext_url="https://s3.codeths.dev/ext/${{ matrix.environment }}/${{ env.EXT_VERSION }}.crx" -v ext_version="${{ env.EXT_VERSION }}" \
           '{gsub(/EXT_ID/, ext_id); gsub(/EXT_URL/, ext_url); gsub(/EXT_VERSION/, ext_version); print}' update.xml > upload/latest.xml
-
-          cp -r LICENSE manifest.json background.js icons dist
 
       - name: Pack extension
         run: |
