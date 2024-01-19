@@ -19,5 +19,8 @@
 		"inlineEnvironment": [
 			"ETHS_*"
 		]
+	},
+	"devDependencies": {
+		"@types/chrome": "^0.0.258"
 	}
 }
