@@ -1,4 +1,6 @@
-const url = process.env.ETHS_API_BASE;
+// const url = process.env.ETHS_API_BASE;
+const url =
+	'https://f565-2600-1700-b350-5d80-4aa9-b89f-6f5f-132a.ngrok-free.app';
 const sender_id = process.env.ETHS_FIREBASE_TOKEN;
 // const serial = 'test';
 
