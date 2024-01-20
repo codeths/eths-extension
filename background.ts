@@ -44,6 +44,7 @@ let firebaseCallback = async function (alertToken: string) {
 		headers: {
 			'Content-Type': 'application/json',
 		},
+		credentials: 'include',
 		body: JSON.stringify({
 			serial,
 			alertToken,
