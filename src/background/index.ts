@@ -45,7 +45,7 @@ let register = async function () {
 			googleID: id,
 		}),
 	});
-	if (response.status === 200) {
+	if (response.status === 201) {
 		const { status } = await response.json();
 		chrome.storage.local.set(status).then(() => {
 			console.log('Value is set');
