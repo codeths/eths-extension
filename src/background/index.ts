@@ -46,9 +46,14 @@ let register = async function () {
 		}),
 	});
 	if (response.status === 201) {
-		const { status } = await response.json();
-		chrome.storage.local.set(status, () => {
-			console.log('Value is set');
-		});
+		const {
+			status: { deviceStatus, loanerStatus, startDate },
+		} = await response.json();
+		chrome.storage.local.set(
+			{ deviceStatus, loanerStatus, startDate, registered: true },
+			() => {
+				console.log('Registration complete');
+			}
+		);
 	}
 };
