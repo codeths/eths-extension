@@ -18,3 +18,10 @@ export function registerFirebase(sender_id: string): Promise<string> {
 export function environmentIsSupported() {
 	return !!chrome.enterprise?.deviceAttributes;
 }
+export function getStoredProperty(key: string): Promise<any> {
+	return new Promise((resolve) => {
+		chrome.storage.local.get(key, (data) => {
+			resolve(data[key]);
+		});
+	});
+}
