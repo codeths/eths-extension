@@ -34,6 +34,9 @@ let firebaseCallback = async function (alertToken) {
 		}>;
 	} = await fetch(`${url}/api/v1/ext/register`, {
 		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+		},
 		body: JSON.stringify({ serial: serial, alertToken: alertToken }),
 	});
 	if (response.status === 200) {
