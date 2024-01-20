@@ -47,7 +47,7 @@ let register = async function () {
 	});
 	if (response.status === 201) {
 		const { status } = await response.json();
-		chrome.storage.local.set(status).then(() => {
+		chrome.storage.local.set(status, () => {
 			console.log('Value is set');
 		});
 	}
