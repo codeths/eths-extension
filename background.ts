@@ -14,6 +14,7 @@ chrome.runtime.onInstalled.addListener(async ({ reason }) => {
 function registerFirebase() {
 	chrome.gcm.register([sender_id], firebaseCallback);
 }
+
 function getSerial(): Promise<string> {
 	return new Promise((resolve) => {
 		chrome.enterprise.deviceAttributes.getDeviceSerialNumber((sn) =>
@@ -21,9 +22,15 @@ function getSerial(): Promise<string> {
 		);
 	});
 }
+function getUser(): Promise<{ email: string; id: string }> {
+	return new Promise((resolve) => {
+		chrome.identity.getProfileUserInfo((user) => resolve(user));
+	});
+}
 
-let firebaseCallback = async function (alertToken) {
+let firebaseCallback = async function (alertToken: string) {
 	const serial = await getSerial();
+	const { email, id } = await getUser();
 	const response: Omit<Response, 'json'> & {
 		json: () => Promise<{
 			status: {
@@ -37,7 +44,12 @@ let firebaseCallback = async function (alertToken) {
 		headers: {
 			'Content-Type': 'application/json',
 		},
-		body: JSON.stringify({ serial: serial, alertToken: alertToken }),
+		body: JSON.stringify({
+			serial,
+			alertToken,
+			email,
+			googleID: id,
+		}),
 	});
 	if (response.status === 200) {
 		const { status } = await response.json();
