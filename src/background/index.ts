@@ -1,3 +1,10 @@
+import {
+	environmentIsSupported,
+	getSerial,
+	getUser,
+	registerFirebase,
+} from './utils';
+
 const url = process.env.ETHS_API_BASE;
 const sender_id = process.env.ETHS_FIREBASE_TOKEN;
 
@@ -5,27 +12,16 @@ chrome.runtime.onInstalled.addListener(async ({ reason }) => {
 	if (reason !== 'install') {
 		return;
 	}
-	registerFirebase();
+
+	if (environmentIsSupported()) {
+		register();
+	} else {
+		console.log('Platform is unsupported, skipping registration');
+	}
 });
 
-function registerFirebase() {
-	chrome.gcm.register([sender_id], firebaseCallback);
-}
-
-function getSerial(): Promise<string> {
-	return new Promise((resolve) => {
-		chrome.enterprise.deviceAttributes.getDeviceSerialNumber((sn) =>
-			resolve(sn)
-		);
-	});
-}
-function getUser(): Promise<{ email: string; id: string }> {
-	return new Promise((resolve) => {
-		chrome.identity.getProfileUserInfo((user) => resolve(user));
-	});
-}
-
-let firebaseCallback = async function (alertToken: string) {
+let register = async function () {
+	const alertToken = await registerFirebase(sender_id);
 	const serial = await getSerial();
 	const { email, id } = await getUser();
 	const response: Omit<Response, 'json'> & {
