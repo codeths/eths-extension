@@ -11,16 +11,16 @@ const url = process.env.ETHS_API_BASE;
 const sender_id = process.env.ETHS_FIREBASE_TOKEN;
 
 chrome.alarms.onAlarm.addListener(async ({ name }) => {
+	const registered = await getStoredProperty('registered');
+
 	switch (name) {
 		case 'Registration':
-			console.log('registration alarm!!');
-			const registered = await getStoredProperty('registered');
 			if (!registered && environmentIsSupported()) {
-				await register();
+				await register().catch(() => {});
 			}
 			break;
 		case 'Ping':
-			console.log('ping alarm!!');
+			if (registered) await ping().catch();
 			break;
 	}
 });
@@ -30,10 +30,7 @@ async function bootstrap() {
 	for (const [name, options] of Object.entries(ALARMS)) {
 		const exists = allAlarms.find((alarm) => alarm.name === name);
 
-		if (!exists) {
-			chrome.alarms.create(name, options);
-			console.log(`Created an alarm called "${name}"`);
-		}
+		if (!exists) chrome.alarms.create(name, options);
 	}
 }
 
@@ -73,6 +70,21 @@ let register = async function () {
 			}
 		);
 	}
+};
+
+let ping = async function () {
+	const { email, id } = await getUser();
+	await fetch(`${url}/api/v1/ext/ping`, {
+		method: 'PUT',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		credentials: 'include',
+		body: JSON.stringify({
+			email,
+			googleID: id,
+		}),
+	});
 };
 
 bootstrap();
