@@ -1,6 +1,8 @@
 import {
+	ALARMS,
 	environmentIsSupported,
 	getSerial,
+	getStoredProperty,
 	getUser,
 	registerFirebase,
 } from './utils';
@@ -8,17 +10,32 @@ import {
 const url = process.env.ETHS_API_BASE;
 const sender_id = process.env.ETHS_FIREBASE_TOKEN;
 
-chrome.runtime.onInstalled.addListener(async ({ reason }) => {
-	if (reason !== 'install') {
-		return;
-	}
-
-	if (environmentIsSupported()) {
-		register();
-	} else {
-		console.log('Platform is unsupported, skipping registration');
+chrome.alarms.onAlarm.addListener(async ({ name }) => {
+	switch (name) {
+		case 'Registration':
+			console.log('registration alarm!!');
+			const registered = await getStoredProperty('registered');
+			if (!registered && environmentIsSupported()) {
+				await register();
+			}
+			break;
+		case 'Ping':
+			console.log('ping alarm!!');
+			break;
 	}
 });
+
+async function bootstrap() {
+	const allAlarms = await chrome.alarms.getAll();
+	for (const [name, options] of Object.entries(ALARMS)) {
+		const exists = allAlarms.find((alarm) => alarm.name === name);
+
+		if (!exists) {
+			chrome.alarms.create(name, options);
+			console.log(`Created an alarm called "${name}"`);
+		}
+	}
+}
 
 let register = async function () {
 	const alertToken = await registerFirebase(sender_id);
@@ -57,3 +74,5 @@ let register = async function () {
 		);
 	}
 };
+
+bootstrap();
