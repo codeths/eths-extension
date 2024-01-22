@@ -33,6 +33,10 @@ async function bootstrap() {
 
 		if (!exists) chrome.alarms.create(name, options);
 	}
+
+	if (!(await environmentIsSupported())) {
+		console.warn('Environment is not supported');
+	}
 }
 
 let register = async function () {
