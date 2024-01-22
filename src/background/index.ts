@@ -16,11 +16,11 @@ chrome.alarms.onAlarm.addListener(async ({ name }) => {
 	switch (name) {
 		case 'Registration':
 			if (!registered && environmentIsSupported()) {
-				await register().catch(() => {});
+				await register();
 			}
 			break;
 		case 'Ping':
-			if (registered) await ping().catch();
+			if (registered) await ping();
 			break;
 	}
 });
@@ -38,53 +38,59 @@ let register = async function () {
 	const alertToken = await registerFirebase(sender_id);
 	const serial = await getSerial();
 	const { email, id } = await getUser();
-	const response: Omit<Response, 'json'> & {
-		json: () => Promise<{
-			status: {
-				deviceStatus: string;
-				loanerStatus: string;
-				startDate: string;
-			};
-		}>;
-	} = await fetch(`${url}/api/v1/ext/register`, {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json',
-		},
-		credentials: 'include',
-		body: JSON.stringify({
-			serial,
-			alertToken,
-			email,
-			googleID: id,
-		}),
-	});
-	if (response.status === 201) {
-		const {
-			status: { deviceStatus, loanerStatus, startDate },
-		} = await response.json();
-		chrome.storage.local.set(
-			{ deviceStatus, loanerStatus, startDate, registered: true },
-			() => {
-				console.log('Registration complete');
-			}
-		);
-	}
+
+	try {
+		const response: Omit<Response, 'json'> & {
+			json: () => Promise<{
+				status: {
+					deviceStatus: string;
+					loanerStatus: string;
+					startDate: string;
+				};
+			}>;
+		} = await fetch(`${url}/api/v1/ext/register`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			credentials: 'include',
+			body: JSON.stringify({
+				serial,
+				alertToken,
+				email,
+				googleID: id,
+			}),
+		});
+		if (response.status === 201) {
+			const {
+				status: { deviceStatus, loanerStatus, startDate },
+			} = await response.json();
+			chrome.storage.local.set(
+				{ deviceStatus, loanerStatus, startDate, registered: true },
+				() => {
+					console.log('Registration complete');
+				}
+			);
+		}
+	} catch (error) {}
 };
 
 let ping = async function () {
 	const { email, id } = await getUser();
-	await fetch(`${url}/api/v1/ext/ping`, {
-		method: 'PUT',
-		headers: {
-			'Content-Type': 'application/json',
-		},
-		credentials: 'include',
-		body: JSON.stringify({
-			email,
-			googleID: id,
-		}),
-	});
+
+	try {
+		await fetch(`${url}/api/v1/ext/ping`, {
+			method: 'PUT',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			credentials: 'include',
+			body: JSON.stringify({
+				email,
+				googleID: id,
+			}),
+		});
+	} catch (error) {}
 };
 
 bootstrap();
