@@ -79,7 +79,7 @@ let ping = async function () {
 	const { email, id } = await getUser();
 
 	try {
-		await fetch(`${url}/api/v1/ext/ping`, {
+		const response = await fetch(`${url}/api/v1/ext/ping`, {
 			method: 'PUT',
 			headers: {
 				'Content-Type': 'application/json',
@@ -90,6 +90,11 @@ let ping = async function () {
 				googleID: id,
 			}),
 		});
+		if (response.status !== 200) {
+			chrome.storage.local.set({ registered: false }, () => {
+				console.warn('Ping was unsuccessful, need to reauthenticate');
+			});
+		}
 	} catch (error) {}
 };
 
