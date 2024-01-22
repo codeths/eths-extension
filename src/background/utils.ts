@@ -25,8 +25,8 @@ export function registerFirebase(sender_id: string): Promise<string> {
 		chrome.gcm.register([sender_id], (firebaseToken) => resolve(firebaseToken));
 	});
 }
-export function environmentIsSupported() {
-	return !!chrome.enterprise?.deviceAttributes;
+export async function environmentIsSupported() {
+	return !!(chrome.enterprise?.deviceAttributes && (await getSerial()));
 }
 export function getStoredProperty(key: string): Promise<any> {
 	return new Promise((resolve) => {

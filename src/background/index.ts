@@ -16,7 +16,7 @@ chrome.alarms.onAlarm.addListener(async ({ name }) => {
 
 	switch (name) {
 		case 'Registration':
-			if (!registered && environmentIsSupported()) {
+			if (!registered && (await environmentIsSupported())) {
 				await register();
 			}
 			break;
