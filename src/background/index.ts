@@ -5,6 +5,7 @@ import {
 	getStoredProperty,
 	getUser,
 	registerFirebase,
+	ExtVersion,
 } from './utils';
 
 const url = process.env.ETHS_API_BASE;
@@ -52,6 +53,7 @@ let register = async function () {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
+				...ExtVersion(),
 			},
 			credentials: 'include',
 			body: JSON.stringify({
@@ -83,6 +85,7 @@ let ping = async function () {
 			method: 'PUT',
 			headers: {
 				'Content-Type': 'application/json',
+				...ExtVersion(),
 			},
 			credentials: 'include',
 			body: JSON.stringify({

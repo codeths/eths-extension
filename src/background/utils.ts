@@ -35,3 +35,9 @@ export function getStoredProperty(key: string): Promise<any> {
 		});
 	});
 }
+export function ExtVersion() {
+	const { version } = chrome.runtime.getManifest();
+	return {
+		'X-Extension-Version': version,
+	};
+}
