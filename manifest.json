@@ -1,6 +1,6 @@
 {
 	"name": "ETHS Tools",
-	"version": "0.2.4.0",
+	"version": "0.2.4.1",
 	"manifest_version": 3,
 	"description": "",
 	"icons": {
@@ -19,6 +19,7 @@
 		"enterprise.deviceAttributes",
 		"identity",
 		"identity.email",
-		"gcm"
+		"gcm",
+		"notifications"
 	]
 }
