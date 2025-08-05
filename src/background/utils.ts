@@ -1,13 +1,3 @@
-export const ALARMS = {
-	Registration: {
-		periodInMinutes: 2,
-		delayInMinutes: 0,
-	},
-	Ping: {
-		periodInMinutes: 2,
-		delayInMinutes: 1,
-	},
-};
 export function getSerial(): Promise<string> {
 	return new Promise((resolve) => {
 		chrome.enterprise.deviceAttributes.getDeviceSerialNumber((sn) => resolve(sn));

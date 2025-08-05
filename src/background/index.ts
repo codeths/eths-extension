@@ -1,5 +1,4 @@
 import {
-	ALARMS,
 	environmentIsSupported,
 	getSerial,
 	getStoredProperty,
@@ -7,11 +6,7 @@ import {
 	registerFirebase,
 	ExtVersion,
 } from './utils';
-
-// @ts-ignore
-const url = process.env.ETHS_API_BASE;
-// @ts-ignore
-const sender_id = process.env.ETHS_FIREBASE_TOKEN;
+import { API_BASE, SENDER_ID, ALARMS } from '../constants';
 
 chrome.alarms.onAlarm.addListener(async ({ name }) => {
 	const registered = await getStoredProperty('registered');
@@ -42,7 +37,7 @@ async function bootstrap() {
 }
 
 let register = async function () {
-	const alertToken = await registerFirebase(sender_id);
+	const alertToken = await registerFirebase(SENDER_ID);
 	const serial = await getSerial();
 	const { email, id } = await getUser();
 
@@ -55,7 +50,7 @@ let register = async function () {
 					startDate: string;
 				};
 			}>;
-		} = await fetch(`${url}/api/v1/ext/register`, {
+		} = await fetch(`${API_BASE}/api/v1/ext/register`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
@@ -84,7 +79,7 @@ let ping = async function () {
 	const { email, id } = await getUser();
 
 	try {
-		const response = await fetch(`${url}/api/v1/ext/ping`, {
+		const response = await fetch(`${API_BASE}/api/v1/ext/ping`, {
 			method: 'PUT',
 			headers: {
 				'Content-Type': 'application/json',
