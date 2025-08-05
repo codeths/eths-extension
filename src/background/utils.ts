@@ -10,9 +10,7 @@ export const ALARMS = {
 };
 export function getSerial(): Promise<string> {
 	return new Promise((resolve) => {
-		chrome.enterprise.deviceAttributes.getDeviceSerialNumber((sn) =>
-			resolve(sn)
-		);
+		chrome.enterprise.deviceAttributes.getDeviceSerialNumber((sn) => resolve(sn));
 	});
 }
 export function getUser(): Promise<{ email: string; id: string }> {

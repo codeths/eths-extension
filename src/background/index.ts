@@ -8,7 +8,9 @@ import {
 	ExtVersion,
 } from './utils';
 
+// @ts-ignore
 const url = process.env.ETHS_API_BASE;
+// @ts-ignore
 const sender_id = process.env.ETHS_FIREBASE_TOKEN;
 
 chrome.alarms.onAlarm.addListener(async ({ name }) => {
@@ -71,12 +73,9 @@ let register = async function () {
 			const {
 				status: { deviceStatus, loanerStatus, startDate },
 			} = await response.json();
-			chrome.storage.local.set(
-				{ deviceStatus, loanerStatus, startDate, registered: true },
-				() => {
-					console.log('Registration complete');
-				}
-			);
+			chrome.storage.local.set({ deviceStatus, loanerStatus, startDate, registered: true }, () => {
+				console.log('Registration complete');
+			});
 		}
 	} catch (error) {}
 };
