@@ -6,7 +6,7 @@ import {
 	registerFirebase,
 	ExtVersion,
 } from './utils';
-import { API_BASE, SENDER_ID, ALARMS } from '../constants';
+import { API_BASE, SENDER_ID, ALARMS, firebaseConfig } from '../constants';
 
 chrome.alarms.onAlarm.addListener(async ({ name }) => {
 	const registered = await getStoredProperty('registered');
@@ -24,6 +24,7 @@ chrome.alarms.onAlarm.addListener(async ({ name }) => {
 });
 
 async function bootstrap() {
+	console.log({ firebaseConfig });
 	const allAlarms = await chrome.alarms.getAll();
 	for (const [name, options] of Object.entries(ALARMS)) {
 		const exists = allAlarms.find((alarm) => alarm.name === name);
@@ -37,7 +38,7 @@ async function bootstrap() {
 }
 
 let register = async function () {
-	const alertToken = await registerFirebase(SENDER_ID);
+	const alertToken = await registerFirebase(SENDER_ID as string);
 	const serial = await getSerial();
 	const { email, id } = await getUser();
 
