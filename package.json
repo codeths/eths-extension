@@ -4,6 +4,8 @@
 		"parcel": "^2.11.0"
 	},
 	"scripts": {
+		"format": "prettier --write .",
+		"lint": "prettier --check .",
 		"build": "parcel build manifest.json",
 		"dev": "parcel watch manifest.json"
 	},
@@ -21,6 +23,14 @@
 		]
 	},
 	"devDependencies": {
-		"@types/chrome": "^0.0.258"
+		"@types/chrome": "^0.0.258",
+		"prettier": "^3.6.2"
+	},
+	"prettier": {
+		"useTabs": true,
+		"singleQuote": true,
+		"trailingComma": "es5",
+		"printWidth": 100,
+		"quoteProps": "consistent"
 	}
 }
