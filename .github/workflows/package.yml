@@ -24,6 +24,10 @@ jobs:
           echo "EXT_VERSION=${GITHUB_REF_NAME:1}" >> $GITHUB_ENV
           echo "ETHS_API_BASE=${{ vars.ETHS_API_BASE }}" >> $GITHUB_ENV
           echo "ETHS_FIREBASE_TOKEN=${{ vars.ETHS_FIREBASE_TOKEN }}" >> $GITHUB_ENV
+          echo "ETHS_FIREBASE_API_KEY=${{ vars.ETHS_FIREBASE_API_KEY }}" >> $GITHUB_ENV
+          echo "ETHS_FIREBASE_APP_ID=${{ vars.ETHS_FIREBASE_APP_ID }}" >> $GITHUB_ENV
+          echo "ETHS_FIREBASE_MEASUREMENT_ID=${{ vars.ETHS_FIREBASE_MEASUREMENT_ID }}" >> $GITHUB_ENV
+          echo "ETHS_FIREBASE_PROJECT_ID=${{ vars.ETHS_FIREBASE_PROJECT_ID }}" >> $GITHUB_ENV
 
       - name: Rename Extension
         if: ${{ matrix.environment == 'dashboard-dev' }}
@@ -72,10 +76,7 @@ jobs:
         if: ${{ ! ( startsWith( github.ref_name, 'v' ) && matrix.environment == 'dashboard-dev' ) }}
         uses: softprops/action-gh-release@v0.1.15
         with:
-          files: |
-            upload/${{ env.EXT_VERSION }}.crx
-            src.zip
-            LICENSE
+          files: upload/${{ env.EXT_VERSION }}.crx
           generate_release_notes: true
           prerelease: ${{ startsWith( github.ref_name, 'b' ) }}
 
